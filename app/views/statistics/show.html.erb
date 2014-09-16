@@ -1,0 +1,61 @@
+<p>
+<h1><b>Statistics<b></h1>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+     google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Proyects', 'Progress', 'Remaining'],
+          <% @projects.each do |project| %>
+          	  <% tasks=project.tasks %>
+ 		      <% stats=calculate_statistics(tasks) %>
+              <% if (project != @projects.last) %>
+                ['<%= project.title %>',<%= stats %>,<%= (1.to_f - stats.to_f) %> ],
+              <% else %>
+                ['<%= project.title %>',<%= stats %>,<%= (1.to_f - stats.to_f) %> ]
+              <% end %>
+          <% end %>
+        ]);
+
+		var formatter = new google.visualization.NumberFormat({pattern:'#.#%'}); 
+		formatter.format(data, 1);
+		formatter.format(data, 2);
+
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1, 2]);
+
+        var options = {
+          title: 'Projects',
+          vAxis: {title: 'PROJECTS',  titleTextStyle: {color: 'red'}},
+          hAxis: {title: 'PROGRESS', titleTextStyle: {color: '#FF0000'}, minValue: 1, maxValue: 1, format: '#%'},
+          colors: ['#21610B','#B40404'],
+          bar: {groupWidth: "50%"},
+          legend: { position: "right" },
+          isStacked: true
+        };
+
+		view.setColumns([0, 1,
+                       { calc: "stringify",
+                         sourceColumn: 1,
+                         type: "string",
+                         role: "annotation"
+                     },
+                       2,{ calc: "stringify",
+                         sourceColumn: 2,
+                         type: "string",
+                         role: "annotation" }
+                         ]);
+		var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+
+        chart.draw(view, options);
+      }
+</script>
+
+<table class="pretty">
+	<div id="chart_div" style="width: 900px; height: 500px;"></div>
+</table>
+
+

@@ -1,0 +1,28 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  n weeks:
+    one: '1 week'
+    other: '%{count} weeks'
+
+  n months:
+    one: '1 month'
+    other: '%{count} months'
+
+  n numbers_et:
+    one: '1 hour'
+    other: '%{count} hours'  
+
+  n numbers_ct:
+    one: '1 hour '
+    other: '%{count} hours'
+
+  n numbers_cx:
+    one:  '1 Alta'
+    other: '%{count}'
+
+  n sequence:
+    one:  '1'
+    other: '%{count}'

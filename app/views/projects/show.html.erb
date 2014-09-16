@@ -1,0 +1,25 @@
+<div class="project_header">
+  <h1><%=link_to @project.title, @project %>
+</h1>
+<%= link_to "Nueva Tarea", new_project_task_path(@project), :class => "btn info" %> 
+</div> 
+	<div class="clear"></div> 
+	<div class="project_nav">
+		
+		<%= link_to "Activas (#{@activas.size})", project_task_status_path(@project, 'activas'), :class => "btn danger" %>
+		<%= link_to "Cerradas (#{@cerradas.size})", project_task_status_path(@project, 'cerradas'),:class => "btn success"  %>
+		<%= link_to "Obsoletas (#{@obsoleta.size})", project_task_status_path(@project, 'obsoleta'),:class => "btn success" %>
+		<%= link_to "Cortadas (#{@cortada.size})", project_task_status_path(@project, 'cortada'),:class => "btn success" %>
+		<%= link_to "En progreso(#{@enprogreso.size})", project_task_status_path(@project, 'enprogreso'),:class => "btn primary" %>
+		<%= link_to "Todas(#{@todas.size})", project_task_status_path(@project, 'todas'),:class => "btn inverse" %>
+		
+		
+		<%= link_to "Alta(#{@alta.size})", project_task_status_path(@project, 'alta'),:class => "btn inverse" %>
+		<%= link_to "Media(#{@media.size})", project_task_status_path(@project, 'media'),:class => "btn inverse" %>
+		<%= link_to "Baja(#{@baja.size})", project_task_status_path(@project, 'baja'),:class => "btn inverse" %>
+		<!--
+		<%= link_to "Abiertas (#{@open.size})", project_task_status_path(@project, 'open') %>
+		<%= link_to "Cerradas (#{@closed.size})", project_task_status_path(@project, 'closed') %>
+		-->
+</div>
+<%= render :template => 'tasks/index' %>

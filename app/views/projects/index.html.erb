@@ -1,0 +1,36 @@
+<div  class="project_header">
+<h2>
+  Projects 
+</h2>
+<%= link_to "New Project", new_project_path, :class => "btn primary" %>
+</div>
+<div class="clear"></div>
+<table>
+  <tr>
+    <th>Project Name</th>
+    <th>Start Date</th>
+    <th>Iteration length</th>
+    <th>Budget</th>
+    <th> Tasks</th> <!-- Open tasks tareas abiertas-->
+    <% if current_user.admin == 1 %>
+      <th>Admin</th>
+    <% end %>
+  </tr>
+
+<% @projects.each do |project| %>
+  <tr>
+    <td><%= link_to project.title, project %></td>
+        <td><%= project.start_date %></td>
+    <td><%= project.iteration_length %></td>
+    <td><%= project.budget %></td>
+    <td><%= project.tasks.where("closed IS NULL OR closed = 0").count %></td>
+    <% if current_user.admin == 1 %>
+      <td><%= link_to "Manage Users", project_project_users_path(project) %></td>
+    <% end %>
+	
+  </tr>
+<% end %>
+</table>
+
+<br />
+

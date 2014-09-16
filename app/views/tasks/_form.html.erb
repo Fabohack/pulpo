@@ -1,0 +1,164 @@
+
+<!-- Agrego esras lineas para el calendarios -->
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/resources/demos/style.css">
+		<script>
+			 $(function() {
+					$( "#task_due_date" ).datepicker({ dateFormat: "yy-mm-dd" });
+			});
+		</script>
+	</head>
+	<body>		
+	</body>
+</html>
+
+<%= form_for([Project.find(params[:project_id]), @task]) do |f| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% @task.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<table>
+		<tr >
+			<td colspan="10">
+				<div class="form-group>
+	  				<%= f.label :subject, class: 'col-md-3 control-label' %> 
+	  				<div class="col-md-10">
+	    				<%= f.text_area :subject, rows: 1, class: 'form-control' %>
+	  				</div>
+				</div>	
+			</td>	
+		</tr>
+	
+	  <tr>
+	    <td colspan="4">
+	    	<div class="form-group>
+				<%= f.label :description, class: 'col-md-3 control-label' %>
+			  	<div class="col-md-10">
+			    	<%= f.text_area :description,rows: 2,  class: 'form-control' %>
+			 	</div>
+			</div>	
+		</td>
+	  </tr>
+  
+  <tr>
+  		<th>
+  			<div class="form-group>
+	    		<%= f.label :state, class: 'col-md-2 control-label' %>
+		    	<% states ={
+		          'ACTIVA'=>1,
+		          'CERRADA'=>2,
+		          'OBSOLETA'=>3,
+		          'CORTADA'=>4,
+		          'EN PROGRESO'=>5,
+		         } %>
+		         
+		         <div class="col-md-10">
+				    <%= f.select :state,states %> </b>
+				 </div>
+			 </div>
+  		</th>
+  		<th>
+	  		<div class="form-group>
+	  			<%= f.label :estimated_time, class: 'col-md-2 control-label' %>
+	  			<div class="col-md-10">
+				    <%= f.select :estimated_time, estimated_time_options %>
+				</div>
+	  		</div>
+  		</th>
+  		<th>
+  			<div class="form-group>
+	  			<%= f.label :completed_time, class: 'col-md-2 control-label' %>
+	  			<div class="col-md-10">
+				    <%= f.select :completed_time, completed_time_options %>
+				</div>
+	  		</div>
+  		</th>
+  		<th>
+  			<div class="form-group>
+	  			<%= f.label :remaining_time, class: 'col-md-2 control-label' %>
+	  			<div class="col-md-10">
+				    <%= f.text_field :remaining_time %>
+				</div>
+	  		</div>
+  		</th>
+
+  </tr>
+ 	
+  <tr>
+	<td colspan="2">
+    	<div class="form-group>
+				<%= f.label :comentaries, class: 'col-md-3 control-label' %>
+				  <div class="col-md-10">
+				    <%= f.text_area :comentaries,rows: 2,  class: 'form-control' %>
+				 </div>
+			</div>	
+	</td>		
+	<td colspan="2">
+  		<div class="form-group>
+		  		<%= f.label :inpairments, class: 'col-md-3 control-label' %> 
+		  			<div class="col-md-10">
+		    			<%= f.text_area :inpairments, rows: 2, class: 'form-control' %>
+		  			</div>
+		</div>	
+  	</td>
+  </tr>
+  
+  <tr>
+  	<th>
+  		<div class="form-group>
+	  		<%= f.label :due_date, class: 'col-md-3 control-label' %> 
+	  			<div>
+	    			<!--<%= f.date_select :due_date %>-->
+	    			<%= f.text_field :due_date  %>  
+	  			</div>
+		</div>
+  	</th>
+  	<th>
+  		<div class="form-group>
+  			<%= f.label :complexity, class: 'col-md-3 control-label' %> 
+  			<% complexities ={
+	          'high'=>1,
+	          'medium'=>2,
+	          'low'=>3,
+	          } %>
+	  		
+	  		<div class="col-md-10">
+	    		<%= f.select :complexity,complexities %>
+	  		</div>
+		</div>
+  	</th>
+  	<th>
+  		<div class="form-group>
+	  		<%= f.label :assigned_to_id, class: 'col-md-3 control-label' %> 
+	  			<div >
+	    			<%= collection_select(:task, :assigned_to_id, User.all, :id, :email) %>
+	  			</div>
+		</div>
+  	</th>
+  	<th></th>
+  </tr>
+  
+  <tr>
+    <td colspan="2">
+      <div class="actions">
+        <%= f.submit controller.action_name.capitalize + " Task", :class => "btn primary" %>
+      </div>
+    </td>
+  </tr>
+</table>
+<% end %>
